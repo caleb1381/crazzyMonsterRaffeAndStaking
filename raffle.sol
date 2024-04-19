@@ -181,27 +181,16 @@ contract NFTRaffle is ReentrancyGuard, ERC721Holder, Ownable {
 
     function random(uint256 _raffleId) private view returns (uint256) {
         Raffle storage raffle = raffles[_raffleId];
-        // return
-        //     uint256(
-        //         keccak256(
-        //             abi.encodePacked(
-        //                 blockhash(block.number - 1),
-        //                 block.timestamp,
-        //                 raffle.players.length
-        //             )
-        //         )
-        //     );
-
         return
             uint256(
                 keccak256(
                     abi.encodePacked(
+                        blockhash(block.number - 1),
                         block.timestamp,
-                        block.prevrandao,
-                        msg.sender
+                        raffle.players.length
                     )
                 )
-            ) % raffle.players.length;
+            );
     }
 
     function getMapNFTBal() public view returns (uint256) {
